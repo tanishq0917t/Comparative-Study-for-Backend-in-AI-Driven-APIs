@@ -21,6 +21,8 @@ Execute the following commands to install dependencies
 Execute the below command to start the FastAPI Server
 1. ``` cd fastapi_src ``` 
 2. ``` uvicorn main:app --reload ```
+<br></br>
+![FastAPI Server](assets/fastapi_server.png)
 <hr>
 
 ### How to set up C++ Environment
@@ -56,3 +58,6 @@ curl -X POST http://localhost:8080/predict \
         "iphone_version": "iPhone 15"
     }'
 ```
+<br></br>
+![FastAPI Server](assets/cpp_server.png)
+<hr>
