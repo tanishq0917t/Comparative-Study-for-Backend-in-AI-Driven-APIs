@@ -27,7 +27,7 @@ def to_onnx_input(data: PhoneFeatures):
     }
 
 # Endpoint using ONNX model
-@app.post("/predict-onnx")
+@app.post("/predict")
 def predict_price_onnx(data: PhoneFeatures):
     inputs = to_onnx_input(data)
     print(type(inputs["iphone_version"]))
