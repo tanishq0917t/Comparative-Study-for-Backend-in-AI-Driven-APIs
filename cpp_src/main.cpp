@@ -1,132 +1,103 @@
-#include "crow_all.h"  // Crow single-header
+#include <crow_all.h>
 #include <onnxruntime_cxx_api.h>
 #include <iostream>
 #include <vector>
-#include <string>
-#include <iomanip>
+#include <stdexcept>
 
-// Struct to represent iPhone features
+// Struct to hold the input features
 struct PhoneFeatures {
     float battery_health;
-    int purchase_year;
-    int battery_cycles;
+    float purchase_year;
+    float battery_cycles;
     float damage_percent;
-    std::string iphone_version;
+    float iphone_version_code;
 };
 
-// Prediction function
-float predict_iphone_price(
-    Ort::Session& session,
-    const PhoneFeatures& features,
-    Ort::AllocatorWithDefaultOptions& allocator)
-{
-    std::vector<const char*> input_node_names = {
-        "battery_health", "purchase_year", "battery_cycles", "damage_percent", "iphone_version"
+// Function to get dynamic output name
+std::string get_output_name(Ort::Session& session, Ort::AllocatorWithDefaultOptions& allocator) {
+    Ort::AllocatedStringPtr name_ptr = session.GetOutputNameAllocated(0, allocator);
+    return std::string(name_ptr.get());
+}
+
+// Prediction logic
+float predict_iphone_price(Ort::Session& session, const PhoneFeatures& features, const std::string& output_name) {
+    Ort::AllocatorWithDefaultOptions allocator;
+
+    const char* input_names[] = {"input"};
+    const char* output_names[] = {output_name.c_str()};
+    std::vector<int64_t> input_shape = {1, 5};
+
+    std::vector<float> input_tensor_values = {
+        features.battery_health,
+        features.purchase_year,
+        features.battery_cycles,
+        features.damage_percent,
+        features.iphone_version_code
     };
 
-    std::vector<Ort::Value> input_tensors;
-    Ort::MemoryInfo memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
-    std::vector<int64_t> shape = {1, 1};
+    Ort::MemoryInfo memory_info = Ort::MemoryInfo::CreateCpu(
+        OrtAllocatorType::OrtArenaAllocator,
+        OrtMemType::OrtMemTypeDefault
+    );
 
-    std::vector<float> battery_health_data = {features.battery_health};
-    input_tensors.push_back(Ort::Value::CreateTensor<float>(
-        memory_info, battery_health_data.data(), battery_health_data.size(), shape.data(), shape.size()));
+    Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
+        memory_info,
+        input_tensor_values.data(),
+        input_tensor_values.size(),
+        input_shape.data(),
+        input_shape.size()
+    );
 
-    std::vector<float> purchase_year_data = {static_cast<float>(features.purchase_year)};
-    input_tensors.push_back(Ort::Value::CreateTensor<float>(
-        memory_info, purchase_year_data.data(), purchase_year_data.size(), shape.data(), shape.size()));
+    auto output_tensors = session.Run(
+        Ort::RunOptions{nullptr},
+        input_names,
+        &input_tensor,
+        1,
+        output_names,
+        1
+    );
 
-    std::vector<float> battery_cycles_data = {static_cast<float>(features.battery_cycles)};
-    input_tensors.push_back(Ort::Value::CreateTensor<float>(
-        memory_info, battery_cycles_data.data(), battery_cycles_data.size(), shape.data(), shape.size()));
-
-    std::vector<float> damage_percent_data = {features.damage_percent};
-    input_tensors.push_back(Ort::Value::CreateTensor<float>(
-        memory_info, damage_percent_data.data(), damage_percent_data.size(), shape.data(), shape.size()));
-
-    std::vector<int64_t> iphone_version_shape = {1, 1};
-    Ort::Value iphone_version_tensor = Ort::Value::CreateTensor(
-        allocator, iphone_version_shape.data(), iphone_version_shape.size(), ONNX_TENSOR_ELEMENT_DATA_TYPE_STRING);
-
-    std::vector<const char*> c_str_iphone_version = {features.iphone_version.c_str()};
-    iphone_version_tensor.FillStringTensor(c_str_iphone_version.data(), c_str_iphone_version.size());
-    input_tensors.push_back(std::move(iphone_version_tensor));
-
-    size_t output_count = session.GetOutputCount();
-    std::vector<const char*> output_node_names;
-
-    for (size_t i = 0; i < output_count; ++i) {
-        char* output_name = nullptr;
-        Ort::GetApi().SessionGetOutputName(session, i, allocator, &output_name);
-        output_node_names.push_back(output_name);
-    }
-
-    std::vector<Ort::Value> output_tensors;
-    try {
-        output_tensors = session.Run(
-            Ort::RunOptions{nullptr},
-            input_node_names.data(),
-            input_tensors.data(),
-            input_tensors.size(),
-            output_node_names.data(),
-            output_node_names.size()
-        );
-    } catch (const Ort::Exception& e) {
-        std::cerr << "ONNX Runtime inference failed: " << e.what() << std::endl;
-        for (auto name : output_node_names)
-            allocator.Free((void*)name);
-        return -1.0f;
-    }
-
-    for (auto name : output_node_names)
-        allocator.Free((void*)name);
-
-    if (output_tensors.empty()) return -1.0f;
-
-    const float* output_data = output_tensors[0].GetTensorData<float>();
-    return output_data ? output_data[0] : -1.0f;
+    float* float_array = output_tensors[0].GetTensorMutableData<float>();
+    return float_array[0];
 }
 
 int main() {
-    // Init ONNX
-    Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "iphone_price_predictor");
+    Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "predictor");
     Ort::SessionOptions session_options;
     session_options.SetIntraOpNumThreads(1);
-    session_options.SetGraphOptimizationLevel(ORT_ENABLE_EXTENDED);
+
     Ort::Session session(env, "iphone_price_predictor.onnx", session_options);
     Ort::AllocatorWithDefaultOptions allocator;
+    std::string output_name = get_output_name(session, allocator);
 
     crow::SimpleApp app;
 
-    // POST /predict endpoint
     CROW_ROUTE(app, "/predict").methods("POST"_method)([&](const crow::request& req) {
         auto body = crow::json::load(req.body);
         if (!body) return crow::response(400, "Invalid JSON");
 
         try {
             PhoneFeatures features;
-            features.battery_health = body["battery_health"].i();  // If coming as int
-            features.purchase_year = body["purchase_year"].i();
-            features.battery_cycles = body["battery_cycles"].i();
-            features.damage_percent = body["damage_percent"].i();  // Or .d() if float
-            features.iphone_version = body["iphone_version"].s();
+            features.battery_health = body["battery_health"].d();
+            features.purchase_year = body["purchase_year"].d();
+            features.battery_cycles = body["battery_cycles"].d();
+            features.damage_percent = body["damage_percent"].d();
+            features.iphone_version_code = body["iphone_version_code"].d();
 
-            float price = predict_iphone_price(session, features, allocator);
-            if (price < 0)
-                return crow::response(500, "Prediction failed");
+            float price = predict_iphone_price(session, features, output_name);
 
             crow::json::wvalue res;
-            res["iphone_version"] = features.iphone_version;
             res["predicted_price"] = price;
             return crow::response(res);
+        } catch (const std::exception& e) {
+            std::cerr << "Caught exception: " << e.what() << std::endl;
+            return crow::response(500, std::string("Internal Server Error: ") + e.what());
         } catch (...) {
-            return crow::response(500, "Unexpected error");
+            std::cerr << "Unknown exception occurred." << std::endl;
+            return crow::response(500, "Unknown internal server error");
         }
     });
 
-    std::cout << "Server running on http://localhost:8080\n";
+    std::cout << "Server running at http://localhost:8080\n";
     app.port(8080).multithreaded().run();
-
-    return 0;
 }
-
