@@ -1,3 +1,7 @@
 express_src/node_modules/
 cpp_src/asio/
 cpp_src/onnxruntime-linux-x64-1.20.0/
+*.jar
+.DS_Store
+*.log
+*.env
