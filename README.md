@@ -86,3 +86,36 @@ curl -X POST http://localhost:8080/predict \
 <br></br>
 ![Express Server](assets/express_server.png)
 <hr>
+
+### How to set up Java Environment
+1. Make sure you have Java 17 and Maven installed
+   ```
+    brew install openjdk@17 #For Mac
+    sudo apt install openjdk@17 #For Linux
+
+    brew install maven #For mac
+    sudo apt install maven #For Linux
+   ```
+2. Execute the below command to generate the JAR file, located in target/
+    ```
+    mvn clean install
+    ```
+3. Execute the below command to execute the Spring Boot application
+    ```
+    java -jar target/{app_name}-0.0.1-SNAPSHOT.jar #replace app_name with your directory name
+    ```
+4. In a separate terminal, execute the below cURL command to test the endpoint
+    ```
+    curl -X POST http://localhost:8080/predict \
+   -H "Content-Type: application/json" \
+   -d '{
+        "battery_health": 85,
+        "purchase_year": 2022,
+        "battery_cycles": 350,
+        "damage_percent": 5.5,
+        "iphone_version_code": 12
+   }'
+    ```
+<br></br>
+![Spring Boot Server](assets/spring_server.png)
+<hr>
