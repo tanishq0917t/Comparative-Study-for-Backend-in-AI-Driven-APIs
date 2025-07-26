@@ -1,4 +1,23 @@
-# Comparative Study for Backend in AI-Driven APIs
+<div align="center">
+<h1>Comparative Study for Backend in AI-Driven APIs</h1> 
+    
+<i>Benchmark Faster, Innovate Smarter, Lead the Future</i><br></br>
+
+![last commit](https://img.shields.io/github/last-commit/tanishq0917t/Comparative-Study-for-Backend-in-AI-Driven-APIs?style=flat&color=blue)
+![languages](https://img.shields.io/badge/languages-4-blue)
+    
+![Express](https://img.shields.io/badge/Express-black?logo=express&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON-000000?logo=json&logoColor=white)
+![Markdown](https://img.shields.io/badge/Markdown-000000?logo=markdown&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![Gradle](https://img.shields.io/badge/Gradle-02303A?logo=gradle&logoColor=white)
+![C++](https://img.shields.io/badge/C++-00599C?logo=c%2B%2B&logoColor=white)
+![XML](https://img.shields.io/badge/XML-0065AE?logo=xml&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![ONNX](https://img.shields.io/badge/ONNX-005CED?logo=onnx&logoColor=white)
+
+</div>
 
 ### Introduction
 Conducted a comparative study of modern back-end frameworks and languages, including Python, C++, Java, and Node.js, for serving AI-driven APIs. Using a real-world use case of predicting second-hand iPhone prices, I implement and benchmark inference APIs built with each backend. I evaluate them on multiple metrics, including latency, throughput, memory usage, and developer experience.
