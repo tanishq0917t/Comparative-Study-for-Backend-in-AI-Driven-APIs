@@ -1,14 +1,14 @@
 # Comparative Study for Backend in AI-Driven APIs
 
 ### Introduction
-Conducted a comparative study of modern back-end frameworks and languages, including Python, C++, Rust, and Node.js, for serving AI-driven APIs. Using a real-world use case of predicting second-hand iPhone prices, I implement and benchmark inference APIs built with each backend. I evaluate them on multiple metrics, including latency, throughput, memory usage, and developer experience.
+Conducted a comparative study of modern back-end frameworks and languages, including Python, C++, Java, and Node.js, for serving AI-driven APIs. Using a real-world use case of predicting second-hand iPhone prices, I implement and benchmark inference APIs built with each backend. I evaluate them on multiple metrics, including latency, throughput, memory usage, and developer experience.
 
 ### Programming Languages & Frameworks
 <ul>
 <li> <b>Python</b> - FastAPI </li>
 <li> <b>NodeJS</b> - Express </li>
 <li> <b>C++</b> - Crow </li>
-<li> Rust </li>
+<li> <b>Java</b> - Spring Boot </li>
 </ul>
 
 <hr>
