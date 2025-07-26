@@ -59,5 +59,30 @@ curl -X POST http://localhost:8080/predict \
     }'
 ```
 <br></br>
-![FastAPI Server](assets/cpp_server.png)
+![C++ Server](assets/cpp_server.png)
+<hr>
+
+### How to set up NodeJS Environment
+1. Install all the required packages
+   ```
+    npm install express body-parser onnxruntime-node
+   ```
+2. To run the server, execute the following command
+   ```
+    node server.js
+   ```
+3. To test the /predict endpoint, execute the following command.
+   ```
+   curl -X POST http://localhost:3000/predict \
+   -H "Content-Type: application/json" \
+   -d '{
+        "battery_health": 85,
+        "purchase_year": 2022,
+        "battery_cycles": 350,
+        "damage_percent": 5.5,
+        "iphone_version_code": 12
+   }'
+   ```
+<br></br>
+![Express Server](assets/express_server.png)
 <hr>
