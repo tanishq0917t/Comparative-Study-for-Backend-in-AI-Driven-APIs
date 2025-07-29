@@ -40,6 +40,7 @@ Conducted a comparative study of modern back-end frameworks and languages, inclu
             <th>S. No</th>
             <th>Image Name</th>
             <th>Framework</th>
+            <th>Port Exposed</th>
             <th>Link</th>
         </tr>
     </thead>
@@ -48,29 +49,75 @@ Conducted a comparative study of modern back-end frameworks and languages, inclu
             <td>1</td>
             <td>fastapi-onnx</td>
             <td>FastAPI - Python</td>
+            <td>5050</td>
             <td><a href="https://hub.docker.com/r/tanishq1710h/fastapi-onnx">Click</a></td>
         </tr>
         <tr>
             <td>2</td>
             <td>crow-onnx</td>
             <td>Crow - C++</td>
+            <td>18080</td>
             <td><a href="https://hub.docker.com/r/tanishq1710h/crow-onnx">Click</a></td>
         </tr>
         <tr>
             <td>3</td>
             <td>express-onnx</td>
             <td>Express - NodeJS</td>
+            <td>3000</td>
             <td><a href="https://hub.docker.com/r/tanishq1710h/express-onnx">Click</a></td>
         </tr>
         <tr>
             <td>4</td>
             <td>springboot-onnx</td>
             <td>Springboot - Java</td>
+            <td>8080</td>
             <td><a href="https://hub.docker.com/r/tanishq1710h/springboot-onnx">Click</a></td>
         </tr>
     </tbody>
 </table>
 <hr>
+
+<h2>How to run application using Docker Containers</h2> 
+
+1. Check if Docker is installed, if not visit - <a href="https://docs.docker.com/engine/install/">Docker Installation</a>
+   ```
+   docker -v
+   ```
+2. To pull images from Docker Hub to your local machine, execute the following command
+   ```
+   docker pull tanishq1710h/fastapi-onnx
+   docker pull tanishq1710h/crow-onnx
+   docker pull tanishq1710h/express-onnx
+   docker pull tanishq1710h/springboot-onnx
+   ```
+3. To run a Docker image, execute the following command (Replace image name)
+   ```
+   docker run --name {image_name} -p {port_number}:{port_number} {container_name}
+   ```
+   example,
+   ```
+   docker run --name fastapi-onnx -p 5050:5050 fastapi-onnx-container
+   ```
+   To run in the background, use the  -d flag
+   ```
+   docker run -d --name fastapi-onnx -p 5050:5050 fastapi-onnx-container
+   ```
+4. Now you can send the request, check using the cURL command -- Replace {app_port_number} with the specific container port number.
+   ```
+   curl -X POST http://localhost:{app_port_number}/predict \
+    -H "Content-Type: application/json" \
+    -d '{
+        "battery_health": 90,
+        "purchase_year": 2024,
+        "battery_cycles": 300,
+        "damage_percent": 15,
+        "iphone_version_code": 13
+    }'
+   ```
+
+<hr>
+
+<h2>If you don't want to use docker, you can manually setup all frameworks</h2>
 
 ### How to set up FastAPI Environment
 Execute the following commands to install dependencies
