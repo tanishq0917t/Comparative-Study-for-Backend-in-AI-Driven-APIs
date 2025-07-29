@@ -114,7 +114,7 @@ Conducted a comparative study of modern back-end frameworks and languages, inclu
 
 <hr>
 
-<h2>If you don't want to use docker, you can manually setup all frameworks</h2>
+<h2>If you don't want to use Docker, you can manually set up all frameworks</h2>
 
 ### How to set up FastAPI Environment
 Execute the following commands to install dependencies
@@ -149,18 +149,6 @@ g++ main.cpp -o predict_iphone -std=c++17 \
     -Wl,-rpath,${ONNX_LIB_PATH} \
     -pthread
 ```
-To send a request using cURL you can use the following command
-```
-curl -X POST http://localhost:8080/predict \
-    -H "Content-Type: application/json" \
-    -d '{
-        "battery_health": 90,
-        "purchase_year": 2022,
-        "battery_cycles": 300,
-        "damage_percent": 15,
-        "iphone_version": "iPhone 15"
-    }'
-```
 <br></br>
 ![C++ Server](assets/cpp_server.png)
 <hr>
@@ -174,23 +162,11 @@ curl -X POST http://localhost:8080/predict \
    ```
     node server.js
    ```
-3. To test the /predict endpoint, execute the following command.
-   ```
-   curl -X POST http://localhost:3000/predict \
-   -H "Content-Type: application/json" \
-   -d '{
-        "battery_health": 85,
-        "purchase_year": 2022,
-        "battery_cycles": 350,
-        "damage_percent": 5.5,
-        "iphone_version_code": 12
-   }'
-   ```
 <br></br>
 ![Express Server](assets/express_server.png)
 <hr>
 
-### How to set up Java Environment
+### How to set up a Java Environment
 1. Make sure you have Java 17 and Maven installed
    ```
     brew install openjdk@17 #For Mac
@@ -206,18 +182,6 @@ curl -X POST http://localhost:8080/predict \
 3. Execute the below command to execute the Spring Boot application
     ```
     java -jar target/{app_name}-0.0.1-SNAPSHOT.jar #replace app_name with your directory name
-    ```
-4. In a separate terminal, execute the below cURL command to test the endpoint
-    ```
-    curl -X POST http://localhost:8080/predict \
-   -H "Content-Type: application/json" \
-   -d '{
-        "battery_health": 85,
-        "purchase_year": 2022,
-        "battery_cycles": 350,
-        "damage_percent": 5.5,
-        "iphone_version_code": 12
-   }'
     ```
 <br></br>
 ![Spring Boot Server](assets/spring_server.png)
