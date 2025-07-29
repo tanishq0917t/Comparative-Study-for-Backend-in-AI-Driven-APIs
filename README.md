@@ -2,9 +2,6 @@
 <h1>Comparative Study for Backend in AI-Driven APIs</h1> 
     
 <i>Benchmark Faster, Innovate Smarter, Lead the Future</i><br></br>
-
-![last commit](https://img.shields.io/github/last-commit/tanishq0917t/Comparative-Study-for-Backend-in-AI-Driven-APIs?style=flat&color=blue)
-![languages](https://img.shields.io/badge/languages-4-blue)
     
 ![Express](https://img.shields.io/badge/Express-black?logo=express&logoColor=white)
 ![JSON](https://img.shields.io/badge/JSON-000000?logo=json&logoColor=white)
