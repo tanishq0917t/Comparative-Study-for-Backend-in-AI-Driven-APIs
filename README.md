@@ -33,7 +33,7 @@ Conducted a comparative study of modern back-end frameworks and languages, inclu
 
 <hr>
 
-### Docker Images
+### Docker Images 
 <table>
     <thead>
         <tr>
@@ -48,25 +48,25 @@ Conducted a comparative study of modern back-end frameworks and languages, inclu
             <td>1</td>
             <td>fastapi-onnx</td>
             <td>FastAPI - Python</td>
-            <td><a href="https://hub.docker.com/r/tanishq1710h/fastapi-onnx" target="_blank">Click</a></td>
+            <td><a href="https://hub.docker.com/r/tanishq1710h/fastapi-onnx">Click</a></td>
         </tr>
         <tr>
             <td>2</td>
             <td>crow-onnx</td>
             <td>Crow - C++</td>
-            <td><a href="https://hub.docker.com/r/tanishq1710h/crow-onnx" target="_blank">Click</a></td>
+            <td><a href="https://hub.docker.com/r/tanishq1710h/crow-onnx">Click</a></td>
         </tr>
         <tr>
             <td>3</td>
             <td>express-onnx</td>
-            <td>Express - Java</td>
-            <td><a href="https://hub.docker.com/r/tanishq1710h/express-onnx" target="_blank">Click</a></td>
+            <td>Express - NodeJS</td>
+            <td><a href="https://hub.docker.com/r/tanishq1710h/express-onnx">Click</a></td>
         </tr>
         <tr>
             <td>4</td>
             <td>springboot-onnx</td>
             <td>Springboot - Java</td>
-            <td><a href="https://hub.docker.com/r/tanishq1710h/springboot-onnx" target="_blank">Click</a></td>
+            <td><a href="https://hub.docker.com/r/tanishq1710h/springboot-onnx">Click</a></td>
         </tr>
     </tbody>
 </table>
